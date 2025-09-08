@@ -1,0 +1,16 @@
+
+# Flyway ignores
+*.user.toml
+*.artifact
+report.html
+report.json
+
+# VSCode ignores
+.vscode/*
+
+# IntelliJ ignores
+.idea/*
+
+# env files except examples
+*.env
+!*.env.example

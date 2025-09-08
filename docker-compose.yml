@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+#  base de datos MySQL
+  mysql:
+    image: mysql:8.0
+    container_name: foro-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "${DB_PORT}:3306"
+    volumes:
+      - ./mysql:/var/lib/mysql
+    networks:
+      - foro-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${DB_ROOT_PASSWORD}"]
+      interval: 1m30s
+      timeout: 30s
+      retries: 5
+      start_period: 30s
+
+# flyway para migraciones
+  flyway:
+     image: flyway/flyway
+     container_name: foro-flyway
+     command: -url=jdbc:mysql://mysql:3306/${DB_DATABASE} -user=${DB_USER} -password=${DB_PASSWORD} migrate
+     volumes:
+       - ./migrations:/flyway/sql
+       - ./flyway/conf:/flyway/conf
+     depends_on:
+        mysql:
+          condition: service_healthy  
+     networks:
+      - foro-network
+
+volumes:
+  mysql_data:
+    driver: local
+
+
+networks:
+  foro-network:
+    driver: bridge

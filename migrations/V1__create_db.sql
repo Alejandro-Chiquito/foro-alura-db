@@ -1,0 +1,8 @@
+CREATE TABLE topicos (
+    id SERIAL PRIMARY KEY,
+    mensaje TEXT NOT NULL,
+    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    status_actual ENUM('ABIERTO', 'SOLUCIONADO', 'CERRADO') DEFAULT 'ABIERTO',
+    autor VARCHAR(100) NOT NULL,
+    curso VARCHAR(100) NOT NULL
+);
