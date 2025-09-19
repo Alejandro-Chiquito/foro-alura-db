@@ -4,6 +4,7 @@
 *.artifact
 report.html
 report.json
+flyway/config
 
 # VSCode ignores
 .vscode/*
