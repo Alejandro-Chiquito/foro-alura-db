@@ -11,9 +11,5 @@ report.json
 # IntelliJ ignores
 .idea/*
 
-# env files except examples
-*.env
-!*.env.example
-
 # local mysql folder created by docker-compose
 mysql
